@@ -48,14 +48,11 @@
 
  -------------- PLEASE WRITE YOUR SQL SOLUTION BELOW THIS LINE ----------------
  */
-SELECT 
-  100.0 * (COUNT(DISTINCT pc_all.product_category) - COUNT(DISTINCT pc_sold.product_category)) 
-  / COUNT(DISTINCT pc_all.product_category) AS pct_product_categories_never_sold
-FROM product_classes pc_all
-LEFT JOIN (
-  SELECT DISTINCT pc.product_category
-  FROM sales s
-  JOIN products p ON s.product_id = p.product_id
-  JOIN product_classes pc ON p.product_class_id = pc.product_class_id
-) pc_sold
-ON pc_all.product_category = pc_sold.product_category; 
+SELECT 100.0*AVG(sq.sold) pct_product_categories_never_sold
+FROM (
+   SELECT product_category, (CASE WHEN SUM(units_sold) IS NULL THEN 1 ELSE 0 END) AS sold
+   FROM product_classes pc
+   LEFT JOIN products p ON pc.product_class_id=p.product_class_id
+   LEFT JOIN sales s ON p.product_id=s.product_id
+   GROUP BY 1
+) sq
