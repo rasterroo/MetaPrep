@@ -24,6 +24,16 @@ The third query is GET 1, and the index of the true value nearest to 1 (to the r
 The fourth query is GET 3, but no values to the right of index 3 are true.
 The fifth query is GET 2, and the value at index 2 is true.
 '''
+def binary_search_ge(arr, target):
+    """Return the smallest index i where arr[i] >= target; else return -1"""
+    left, right = 0, len(arr)
+    while left < right:
+        mid = (left + right) // 2
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    return left if left < len(arr) else -1
 
 def answerQueries(queries, N):
     result = []
