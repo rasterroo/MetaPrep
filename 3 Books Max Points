@@ -1,0 +1,27 @@
+from collections import defaultdict
+from itertools import combinations
+
+def max_points(books):
+    # Step 1: Keep the best-scoring book per category
+    category_best = defaultdict(int)
+    for category, points in books:
+        category_best[category] = max(category_best[category], points)
+    
+    # Step 2: Get top points from all categories
+    top_books = sorted(category_best.values(), reverse=True)
+    
+    # Step 3: Sum up to top 3 books
+    return sum(top_books[:3])
+
+# Example
+books = [
+    ("Math", 90),
+    ("Science", 80),
+    ("Literature", 85),
+    ("Math", 75),
+    ("Science", 95),
+    ("Art", 70),
+    ("Literature", 60)
+]
+
+print(max_points(books))  # Output: 250 (95 from Science, 90 from Math, 85 from Literature)
