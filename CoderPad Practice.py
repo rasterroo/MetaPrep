@@ -92,4 +92,54 @@ def max_classes_in_two_consecutive_years(classes):
     return max_classes
 
 workshops = [2020, 2020, 2021, 2021, 2021, 2022, 2024, 2025, 2025]
-print(max_classes_in_two_consecutive_years(workshops))
+
+def validIP(addr):
+    # 0-255, 4 numbers separated by dots
+    pfx = addr.split(".")
+    if len(pfx)!=4:
+        return False
+    for item in pfx:
+        item = int(item)
+        if item < 0 or item > 255:
+            return False
+
+    return True
+
+def max_classes_in_consecutive_years(workshops):
+    d = {}
+    for year in workshops:
+        d[year] = d.get(year,0) + 1
+    d = sorted(d.items(), key=lambda x:x[0])
+
+    curr = max_classes = 0
+    for i in range(len(d)):
+        if i!=0 and d[i][0] != d[i-1][0] + 1: # reset
+            curr = 0
+        curr += d[i][1]
+        max_classes = max(max_classes, curr)
+
+    return max_classes
+
+workshops = [2020, 2020, 2021, 2021, 2021, 2022, 2024, 2025, 2025, 2026, 2026, 2027, 2028]
+
+def max_points_3_books(arr):
+    hmap = {}
+    for item in arr:
+        book, points = item
+        hmap[book] = max(hmap.get(book,0), points)
+    s_map = sorted(hmap.values(), reverse=True)
+    output = sum(s_map[:3]) 
+    return output
+
+
+# Example
+books = [
+    ("Math", 90),
+    ("Science", 80),
+    ("Literature", 85),
+    ("Math", 75),
+    ("Science", 95),
+    ("Art", 70),
+    ("Literature", 60)
+]
+
